@@ -342,15 +342,33 @@ function renderLista() {
     lista.sort((a, b) => primeira(a).localeCompare(primeira(b)) || a.titulo.localeCompare(b.titulo, 'pt'));
   } else lista.sort((a, b) => a.titulo.localeCompare(b.titulo, 'pt'));
 
-  const partes = [];
-  if (S.dia) partes.push(`em ${rotuloDia(S.dia)}${S.dia === HOJE ? ' (hoje)' : ''}`);
-  $('#resumo').textContent = `${lista.length} ${lista.length === 1 ? 'espetáculo' : 'espetáculos'}${partes.length ? ' ' + partes.join(' ') : ''}`;
+  renderResumo();
 
   if (!lista.length) {
     alvo.innerHTML = `<p class="vazio-msg">Nenhum espetáculo encontrado com esses filtros.<br><button class="btn" id="limpar" style="margin-top:12px">Limpar filtros</button></p>`;
     return;
   }
-  alvo.innerHTML = `<div class="grid">${lista.map(cardHtml).join('')}</div>`;
+  const grupos = Object.keys(CATS).map(k => [k, lista.filter(s => s.cat === k)]).filter(([, l]) => l.length);
+  if (S.cat === 'todos' && grupos.length > 1) {
+    alvo.innerHTML = grupos.map(([k, l]) => `<section class="grupo" id="g-${k}" style="--cat:var(--c-${k})">
+      <h2><span>${CATS[k].nome}</span><small>${l.length} ${l.length === 1 ? 'espetáculo' : 'espetáculos'}</small></h2>
+      <div class="grid">${l.map(cardHtml).join('')}</div></section>`).join('');
+  } else alvo.innerHTML = `<div class="grid">${lista.map(cardHtml).join('')}</div>`;
+}
+
+/* Resumo no topo da lista: quantos espetáculos de cada categoria (no dia escolhido); clicar filtra. */
+function renderResumo() {
+  const base = SHOWS.filter(passaSemCat);
+  const porCat = Object.keys(CATS).map(k => [k, base.filter(s => s.cat === k).length]).filter(([, n]) => n);
+  const teatros = new Set(base.map(s => s.teatro).filter(Boolean)).size;
+  const quando = S.dia ? `${rotuloDia(S.dia)}${S.dia === HOJE ? ' (hoje)' : ''}` : 'Toda a programação';
+  const titulo = quando.charAt(0).toUpperCase() + quando.slice(1);
+  const n = base.length;
+  const chips = porCat.map(([k, c]) => `<button class="rc${S.cat === k ? ' ativo' : ''}" data-cat="${k}" style="--cat:var(--c-${k})" aria-pressed="${S.cat === k}"><b>${c}</b><span>${CATS[k].nome}</span></button>`).join('');
+  $('#resumo').innerHTML = n ? `<div class="resumo-box">
+      <div class="resumo-tit"><b>${esc(titulo)}</b><span>${n} ${n === 1 ? 'espetáculo' : 'espetáculos'} em ${teatros} ${teatros === 1 ? 'teatro' : 'teatros'}</span></div>
+      <div class="resumo-chips">${chips}${S.cat !== 'todos' ? '<button class="rc todos" data-cat="todos"><b>↺</b><span>Ver todos</span></button>' : ''}</div>
+    </div>` : '';
 }
 
 function renderTeatros() {
@@ -515,7 +533,7 @@ function ligar() {
     if (!el) return;
     const d = el.dataset;
     if (d.view) { track('aba', { extra: d.view }); S.view = d.view; aviso(''); render(); scrollTo({ top: 0 }); }
-    else if (d.cat) { track('filtro', { local: 'categoria', extra: d.cat }); S.cat = d.cat; render(); }
+    else if (d.cat) { track('filtro', { local: 'categoria', extra: d.cat }); S.cat = (S.cat === d.cat && d.cat !== 'todos') ? 'todos' : d.cat; render(); }
     else if (d.dia) { track('filtro', { local: 'dia', extra: d.dia }); aviso(''); S.dia = S.dia === d.dia ? '' : d.dia; render(); }
     else if (d.detalhe) abrirDetalhe(d.detalhe, d.sec);
     else if (d.onde) abrirOnde(d.onde);

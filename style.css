@@ -177,3 +177,19 @@ dialog::backdrop { background: rgba(0,0,0,.7); }
   .tab { padding: 10px 6px; font-size: .84rem; }
   .tab-pdf { padding: 8px 12px; font-size: .84rem; }
 }
+
+.resumo-box { background: var(--panel); border: 1px solid var(--linha); border-radius: var(--raio); padding: 12px 14px; }
+.resumo-tit { display: flex; flex-wrap: wrap; gap: 4px 14px; align-items: baseline; margin-bottom: 10px; }
+.resumo-tit b { font-size: 1.05rem; color: var(--latao); }
+.resumo-tit span { color: var(--suave); font-size: .92rem; }
+.resumo-chips { display: flex; flex-wrap: wrap; gap: 8px; }
+.rc { display: inline-flex; align-items: center; gap: 8px; padding: 6px 14px 6px 6px; border-radius: 999px; border: 2px solid var(--cat, var(--linha)); background: transparent; cursor: pointer; color: var(--texto); }
+.rc b { min-width: 34px; height: 34px; border-radius: 50%; display: inline-grid; place-items: center; background: var(--cat, var(--linha)); color: #fff; font-size: 1.05rem; }
+.rc span { font-size: .92rem; font-weight: 600; }
+.rc.ativo { background: var(--cat); color: #fff; }
+.rc.ativo b { background: rgba(0,0,0,.28); }
+.rc.todos { --cat: var(--linha); }
+.grupo { margin-top: 22px; }
+.grupo h2 { display: flex; align-items: baseline; gap: 12px; margin: 0 0 12px; padding-bottom: 8px; border-bottom: 3px solid var(--cat); font-size: 1.3rem; }
+.grupo h2 small { color: var(--suave); font-weight: 400; font-size: .9rem; }
+.resumo { max-width: 1100px; margin: 10px auto 0; padding: 0 16px; }
