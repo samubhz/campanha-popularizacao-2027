@@ -80,3 +80,17 @@ O site registra, sem dados pessoais, cada visita, espetáculo aberto, clique em 
 Para saber de qual ponto da cidade veio cada visita, use um código por QR Code: `https://.../?origem=ponto-paulista`.
 
 Nada é registrado ao testar no computador (`localhost`) nem com `?hoje=` no endereço.
+
+## Programa em PDF (para baixar no celular)
+
+O arquivo `programa-campanha-2027.pdf` é gerado a partir das mesmas planilhas do site: capa, menu por categoria, uma página por espetáculo (foto, sessões, preço, sinopse, ficha técnica, vídeos) e botões de comprar, Waze, Google Maps e WhatsApp. Espetáculos com ficha longa ganham uma segunda página.
+
+Para gerar de novo depois de mudar as planilhas (precisa do Google Chrome instalado):
+
+```bash
+python3 tools/gerar_pdf.py programa-campanha-2027.pdf
+```
+
+Depois, envie o novo PDF para o repositório, substituindo o antigo. O PDF lê sem internet, mas os botões de comprar, mapa e vídeos precisam de conexão.
+
+`tools/receptor-metricas.gs` é o código do receptor das métricas (Google Apps Script), guardado aqui para o caso de precisar recriar a planilha.
