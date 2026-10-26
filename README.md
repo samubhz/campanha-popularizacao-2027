@@ -72,3 +72,11 @@ Para atualizar a programação: edite os CSV no GitHub (botão **Add file → Up
 - Aba **Teatros** (endereços, telefone, lugares, ônibus) e aba **Ingressos** (postos, regras, contato)
 - Botão **Compartilhar** no WhatsApp com mensagem pronta (nome, teatro, datas, preço e link do espetáculo)
 - Ficha técnica completa em tabela e vídeos/links incorporados no detalhe de cada espetáculo
+
+## Métricas do site
+
+O site registra, sem dados pessoais, cada visita, espetáculo aberto, clique em Comprar, compartilhamento no WhatsApp, vídeo tocado, uso do Waze/Maps, busca e filtro. Os eventos vão para a planilha **Campanha 2027 - Metricas do site** (Google Planilhas), pelo endereço em `data/config.json` > `analyticsUrl`. As abas `resumo_geral`, `resumo_espetaculos` e `resumo_por_dia` somam tudo automaticamente.
+
+Para saber de qual ponto da cidade veio cada visita, use um código por QR Code: `https://.../?origem=ponto-paulista`.
+
+Nada é registrado ao testar no computador (`localhost`) nem com `?hoje=` no endereço.

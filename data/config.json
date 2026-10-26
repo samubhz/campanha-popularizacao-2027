@@ -16,9 +16,21 @@
     "instagram": "@sinparcmg"
   },
   "postos": [
-    { "nome": "Posto Shopping Cidade (Piso GG)", "endereco": "Rua Tupis, 337, Centro", "horario": "Seg a Sáb 10h às 19h · Dom 10h às 18h" },
-    { "nome": "Posto Shopping Pátio Savassi (Piso L3)", "endereco": "Av. do Contorno, 6.061, Funcionários", "horario": "Seg a Sáb 12h às 19h · Dom 14h às 18h" },
-    { "nome": "Monte Carmo Shopping (Espaço de Eventos)", "endereco": "Av. Juiz Marco Túlio Isaac, 1.119, Ingá Alto, Betim", "horario": "Seg a Sáb 12h às 19h · Dom 12h às 18h" }
+    {
+      "nome": "Posto Shopping Cidade (Piso GG)",
+      "endereco": "Rua Tupis, 337, Centro",
+      "horario": "Seg a Sáb 10h às 19h · Dom 10h às 18h"
+    },
+    {
+      "nome": "Posto Shopping Pátio Savassi (Piso L3)",
+      "endereco": "Av. do Contorno, 6.061, Funcionários",
+      "horario": "Seg a Sáb 12h às 19h · Dom 14h às 18h"
+    },
+    {
+      "nome": "Monte Carmo Shopping (Espaço de Eventos)",
+      "endereco": "Av. Juiz Marco Túlio Isaac, 1.119, Ingá Alto, Betim",
+      "horario": "Seg a Sáb 12h às 19h · Dom 12h às 18h"
+    }
   ],
   "regras": [
     "O valor promocional vale somente nos Postos Sinparc, no app e na internet. Nas bilheterias dos teatros vale o valor integral e a meia-entrada, conforme a lei.",
@@ -26,5 +38,6 @@
     "Os ingressos não têm lugar marcado: chegue mais cedo ao teatro.",
     "Não fazemos reserva, troca nem devolução de dinheiro. Confira o ingresso na hora da compra.",
     "Não compre de cambistas: os ingressos podem ser falsos."
-  ]
+  ],
+  "analyticsUrl": "https://script.google.com/macros/s/AKfycbyyykUJ_h8X5QQ430-DHgNffJppGVwEVUbdQ7FdAXRzgcAsIUF0tnaTU4Pl4A3ZJND-/exec"
 }

@@ -112,6 +112,28 @@ function gravarHash(show) {
   history.replaceState(null, '', location.pathname + location.search + (p.toString() ? '#' + p : ''));
 }
 
+
+/* ---------- medição própria (sem dados pessoais) ----------
+   Cada ação manda uma linha para a planilha configurada em config.json > analyticsUrl. */
+const SESSAO = (() => { try { let s = sessionStorage.getItem('sid'); if (!s) { s = Math.random().toString(36).slice(2, 10); sessionStorage.setItem('sid', s); } return s; } catch { return 'anon'; } })();
+const ORIGEM = (() => {
+  const p = new URLSearchParams(location.search);
+  const o = p.get('origem') || p.get('o') || p.get('utm_source') || '';
+  try { if (o) sessionStorage.setItem('origem', o.slice(0, 60)); return o ? o.slice(0, 60) : (sessionStorage.getItem('origem') || ''); } catch { return o; }
+})();
+function track(evento, d = {}) {
+  try {
+    if (!CFG?.analyticsUrl || /^(localhost|127\.|\[::1\])/.test(location.hostname) || new URLSearchParams(location.search).has('hoje')) return;
+    const s = d.espetaculo ? SHOWS.find(x => x.id === d.espetaculo) : null;
+    const corpo = JSON.stringify({
+      evento, sessao: SESSAO, origem: ORIGEM, espetaculo: d.espetaculo || '', titulo: s?.titulo || '', categoria: s?.cat || '',
+      local: d.local || '', extra: String(d.extra || '').slice(0, 120),
+      referrer: document.referrer ? new URL(document.referrer).hostname : '', dispositivo: matchMedia('(max-width:700px)').matches ? 'celular' : 'computador',
+    });
+    fetch(CFG.analyticsUrl, { method: 'POST', mode: 'no-cors', body: corpo, keepalive: true });
+  } catch { /* medir nunca pode quebrar o site */ }
+}
+
 /* ---------- carga ---------- */
 async function carregar() {
   const get = async (u, tipo) => {
@@ -179,12 +201,12 @@ function precoHtml(s) {
   const b = s.preco_bilheteria ? reais(s.preco_bilheteria) : '';
   return `<span class="preco">${p}${b ? `<s>${b} na bilheteria</s>` : ''}</span>`;
 }
-function botaoComprar(s, classe = 'btn primario') {
+function botaoComprar(s, classe = 'btn primario', local = 'card') {
   if (s.esgotado) return `<span class="${classe}" aria-disabled="true">Esgotado</span>`;
   const gratis = precoTxt(s) === 'Gratuito';
   if (gratis && !s.link_ingresso) return `<button class="${classe}" data-detalhe="${esc(s.id)}">Entrada gratuita · detalhes</button>`;
   const url = s.link_ingresso || CFG.lojaUrl;
-  return `<a class="${classe}" href="${esc(url)}" target="_blank" rel="noopener">🎟 Comprar ingresso</a>`;
+  return `<a class="${classe}" href="${esc(url)}" target="_blank" rel="noopener" data-track="comprar" data-id="${esc(s.id)}" data-local="${local}">🎟 Comprar ingresso</a>`;
 }
 
 /* ---------- vídeos e links ---------- */
@@ -196,12 +218,12 @@ function listaVideos(s) {
 }
 const ytId = u => (u.match(/(?:youtu\.be\/|youtube\.com\/(?:watch\?(?:.*&)?v=|embed\/|shorts\/))([\w-]{11})/) || [])[1];
 const igPost = u => { const m = u.match(/instagram\.com\/(p|reel|tv)\/([\w-]+)/); return m && `https://www.instagram.com/${m[1]}/${m[2]}/embed`; };
-function videoHtml(v, n) {
+function videoHtml(v, id) {
   const yt = ytId(v.url), ig = igPost(v.url);
   const rot = esc(v.rotulo || (yt ? 'Vídeo' : ig ? 'Vídeo no Instagram' : 'Link'));
-  if (yt) return `<div class="video" data-play="yt:${yt}" role="button" tabindex="0" aria-label="Assistir: ${rot}">
+  if (yt) return `<div class="video" data-play="yt:${yt}" data-id="${esc(id)}" role="button" tabindex="0" aria-label="Assistir: ${rot}">
       <img src="https://img.youtube.com/vi/${yt}/hqdefault.jpg" alt="" loading="lazy"><span class="play">▶</span><span class="rot">${rot}</span></div>`;
-  if (ig) return `<div class="video ig" data-play="ig:${esc(ig)}" role="button" tabindex="0"><span class="play">▶</span><span class="rot">${rot}</span></div>
+  if (ig) return `<div class="video ig" data-play="ig:${esc(ig)}" data-id="${esc(id)}" role="button" tabindex="0"><span class="play">▶</span><span class="rot">${rot}</span></div>
       <a class="btn peq" href="${esc(v.url)}" target="_blank" rel="noopener">Abrir no Instagram</a>`;
   const insta = /instagram\.com/i.test(v.url), you = /youtube\.com|youtu\.be/i.test(v.url);
   return `<a class="btn" href="${esc(v.url)}" target="_blank" rel="noopener">${insta ? '📷' : you ? '▶' : '🔗'} ${rot}</a>`;
@@ -262,7 +284,7 @@ function cardHtml(s) {
         <button class="btn" data-detalhe="${esc(s.id)}">Detalhes</button>
         ${t ? `<button class="btn" data-onde="${esc(t.id)}">Como chegar</button>` : ''}
         ${listaVideos(s).length ? `<button class="btn" data-detalhe="${esc(s.id)}" data-sec="sec-videos">▶ Vídeos</button>` : ''}
-        <a class="btn whats" href="${esc(linkWhats(s))}" target="_blank" rel="noopener" aria-label="Compartilhar no WhatsApp">Compartilhar</a>
+        <a class="btn whats" href="${esc(linkWhats(s))}" target="_blank" rel="noopener" aria-label="Compartilhar no WhatsApp" data-track="whatsapp" data-id="${esc(s.id)}" data-local="card">Compartilhar</a>
       </div>
     </div>
   </article>`;
@@ -346,8 +368,8 @@ function renderTeatros() {
       ${t.acessibilidade ? `<p>♿ ${esc(t.acessibilidade)}</p>` : ''}
       ${t.onibus ? `<p>🚌 ${esc(t.onibus)}</p>` : ''}
       <div class="acoes">
-        <a class="btn waze peq" href="${esc(linkWaze(t))}" target="_blank" rel="noopener">Abrir no Waze</a>
-        <a class="btn peq" href="${esc(linkMaps(t))}" target="_blank" rel="noopener">Google Maps</a>
+        <a class="btn waze peq" href="${esc(linkWaze(t))}" target="_blank" rel="noopener" data-track="waze" data-extra="${esc(t.id)}" data-local="aba-teatros">Abrir no Waze</a>
+        <a class="btn peq" href="${esc(linkMaps(t))}" target="_blank" rel="noopener" data-track="maps" data-extra="${esc(t.id)}" data-local="aba-teatros">Google Maps</a>
         ${n ? `<button class="btn peq" data-ver-teatro="${esc(t.id)}">${n} ${n === 1 ? 'espetáculo' : 'espetáculos'}</button>` : ''}
       </div>
     </article>`;
@@ -406,14 +428,14 @@ function abrirDlg(html, id = '') {
   d.scrollTop = 0;
   gravarHash(id);
 }
-function enderecoBox(t) {
+function enderecoBox(t, showId = '') {
   return `<div class="endereco-box"><b>${esc(t.nome)}</b><br>${esc(enderecoLinha(t))}
     ${t.telefone ? `<br><span class="meta">☎ ${esc(t.telefone)}</span>` : ''}
     ${t.onibus ? `<br><span class="meta">🚌 ${esc(t.onibus)}</span>` : ''}
     ${t.acessibilidade ? `<br><span class="meta">♿ ${esc(t.acessibilidade)}</span>` : ''}</div>
     <div class="acoes">
-      <a class="btn waze" href="${esc(linkWaze(t))}" target="_blank" rel="noopener">Abrir no Waze</a>
-      <a class="btn" href="${esc(linkMaps(t))}" target="_blank" rel="noopener">Google Maps</a>
+      <a class="btn waze" href="${esc(linkWaze(t))}" target="_blank" rel="noopener" data-track="waze" data-id="${esc(showId)}" data-extra="${esc(t.id)}" data-local="${showId ? 'detalhe' : 'como-chegar'}">Abrir no Waze</a>
+      <a class="btn" href="${esc(linkMaps(t))}" target="_blank" rel="noopener" data-track="maps" data-id="${esc(showId)}" data-extra="${esc(t.id)}" data-local="${showId ? 'detalhe' : 'como-chegar'}">Google Maps</a>
       <button class="btn" data-copiar="${esc(enderecoLinha(t))}">Copiar endereço</button>
     </div>`;
 }
@@ -423,8 +445,9 @@ function abrirOnde(tid) {
 }
 function abrirDetalhe(id, secao) {
   const s = SHOWS.find(x => x.id === id); if (!s) return;
+  track('ver_espetaculo', { espetaculo: id, local: secao ? 'videos' : '' });
   const porDia = s.sessoes.map(x => `<div class="${x.d < HOJE ? 'passou' : ''}">${rotuloDia(x.d)} · <b>${horaFmt(x.h)}</b></div>`).join('');
-  const vids = listaVideos(s).map(videoHtml);
+  const vids = listaVideos(s).map(v => videoHtml(v, s.id));
   const extras = [s.instagram && `<a class="btn" href="https://www.instagram.com/${esc(s.instagram.replace(/^@/, ''))}/" target="_blank" rel="noopener">📷 ${esc(s.instagram)}</a>`,
     s.site && `<a class="btn" href="${/^https?:/.test(s.site) ? esc(s.site) : 'https://' + esc(s.site)}" target="_blank" rel="noopener">🔗 ${esc(s.site.replace(/^https?:\/\//, ''))}</a>`].filter(Boolean);
   abrirDlg(`
@@ -434,8 +457,8 @@ function abrirDetalhe(id, secao) {
       <h2 id="dlg-titulo">${esc(s.titulo)}</h2>
       <div class="meta">${[s.genero, s.classificacao, s.duracao].filter(Boolean).map(esc).join(' · ')}</div>
       <div class="meta">Produção: ${esc(s.produtor || '—')}</div>
-      <div class="acoes">${botaoComprar(s)}
-        <a class="btn whats" href="${esc(linkWhats(s))}" target="_blank" rel="noopener">Compartilhar no WhatsApp</a></div>
+      <div class="acoes">${botaoComprar(s, 'btn primario', 'topo')}
+        <a class="btn whats" href="${esc(linkWhats(s))}" target="_blank" rel="noopener" data-track="whatsapp" data-id="${esc(s.id)}" data-local="topo">Compartilhar no WhatsApp</a></div>
       ${s.criancas ? '<p class="meta">Todas as crianças pagam ingresso.</p>' : ''}
       ${s.sinopse ? `<h3>Sinopse</h3><p>${esc(s.sinopse)}</p>` : ''}
       ${s.ficha ? `<h3>Ficha técnica</h3>${fichaHtml(s.ficha)}` : ''}
@@ -444,30 +467,32 @@ function abrirDetalhe(id, secao) {
       <h3>Ingressos</h3>
       <div class="precos"><div><b>${precoTxt(s)}</b><span>${precoTxt(s) === 'Gratuito' ? 'Entrada' : 'Postos Sinparc, app e internet'}</span></div>
       ${s.preco_bilheteria ? `<div><b>${reais(s.preco_bilheteria)}</b><span>Inteira na bilheteria</span></div>` : ''}</div>
-      <div class="acoes">${botaoComprar(s)}</div>
-      ${s.t ? `<h3>Onde${s.sala ? ` · ${esc(s.sala)}` : ''}</h3>${enderecoBox(s.t)}` : ''}
-      <div class="acoes" style="margin-top:18px">${botaoComprar(s)}
-        <a class="btn whats" href="${esc(linkWhats(s))}" target="_blank" rel="noopener">Compartilhar no WhatsApp</a>
+      <div class="acoes">${botaoComprar(s, 'btn primario', 'preco')}</div>
+      ${s.t ? `<h3>Onde${s.sala ? ` · ${esc(s.sala)}` : ''}</h3>${enderecoBox(s.t, s.id)}` : ''}
+      <div class="acoes" style="margin-top:18px">${botaoComprar(s, 'btn primario', 'fim')}
+        <a class="btn whats" href="${esc(linkWhats(s))}" target="_blank" rel="noopener" data-track="whatsapp" data-id="${esc(s.id)}" data-local="fim">Compartilhar no WhatsApp</a>
         <button class="btn" data-copiarlink="${esc(s.id)}">Copiar link</button></div>
     </div>`, s.id);
   if (secao) setTimeout(() => $('#' + secao)?.scrollIntoView({ block: 'start' }), 60);
 }
 function tocarVideo(el) {
+  track('video', { espetaculo: el.dataset.id, extra: el.dataset.play.split(':')[0] });
   const [tipo, ...r] = el.dataset.play.split(':'); const v = r.join(':');
   if (tipo === 'yt') el.outerHTML = `<div class="video-frame"><iframe src="https://www.youtube-nocookie.com/embed/${v}?autoplay=1&rel=0" title="Vídeo" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen loading="lazy"></iframe></div>`;
   else el.outerHTML = `<div class="video-frame ig"><iframe src="${v}" title="Instagram" allowfullscreen loading="lazy"></iframe></div>`;
 }
 async function copiarLink(id, el) {
   const s = SHOWS.find(x => x.id === id);
+  track('copiar_link', { espetaculo: id });
   try { await navigator.clipboard.writeText(linkShow(s)); el.textContent = 'Link copiado!'; } catch { prompt('Copie o link:', linkShow(s)); }
 }
 
 /* ---------- eventos ---------- */
 function ligar() {
   let t;
-  $('#busca').addEventListener('input', e => { clearTimeout(t); t = setTimeout(() => { S.q = e.target.value.trim(); render(); }, 120); });
-  $('#sel-teatro').addEventListener('change', e => { S.teatro = e.target.value; render(); });
-  $('#sel-genero').addEventListener('change', e => { S.genero = e.target.value; render(); });
+  let tb; $('#busca').addEventListener('input', e => { clearTimeout(t); t = setTimeout(() => { S.q = e.target.value.trim(); render(); }, 120); clearTimeout(tb); tb = setTimeout(() => { if (S.q.length >= 3) track('busca', { extra: S.q }); }, 1500); });
+  $('#sel-teatro').addEventListener('change', e => { track('filtro', { local: 'teatro', extra: e.target.value }); S.teatro = e.target.value; render(); });
+  $('#sel-genero').addEventListener('change', e => { track('filtro', { local: 'genero', extra: e.target.value }); S.genero = e.target.value; render(); });
   $('#chk-acess').addEventListener('change', e => { S.acess = e.target.checked ? '1' : ''; render(); });
   $('#btn-hoje').addEventListener('click', botaoHoje);
   $('#btn-amanha').addEventListener('click', () => {
@@ -483,13 +508,15 @@ function ligar() {
   };
   document.addEventListener('keydown', e => { if (e.key === 'Enter' && e.target.matches?.('[data-card]')) abrirCard(e); });
   document.addEventListener('click', e => {
+    const tr = e.target.closest('[data-track]');
+    if (tr) track(tr.dataset.track, { espetaculo: tr.dataset.id, local: tr.dataset.local, extra: tr.dataset.extra });
     if (abrirCard(e)) return;
     const el = e.target.closest('[data-view],[data-cat],[data-dia],[data-detalhe],[data-onde],[data-ver-teatro],[data-fechar],[data-copiar],[data-copiarlink],[data-play],#limpar');
     if (!el) return;
     const d = el.dataset;
-    if (d.view) { S.view = d.view; aviso(''); render(); scrollTo({ top: 0 }); }
-    else if (d.cat) { S.cat = d.cat; render(); }
-    else if (d.dia) { aviso(''); S.dia = S.dia === d.dia ? '' : d.dia; render(); }
+    if (d.view) { track('aba', { extra: d.view }); S.view = d.view; aviso(''); render(); scrollTo({ top: 0 }); }
+    else if (d.cat) { track('filtro', { local: 'categoria', extra: d.cat }); S.cat = d.cat; render(); }
+    else if (d.dia) { track('filtro', { local: 'dia', extra: d.dia }); aviso(''); S.dia = S.dia === d.dia ? '' : d.dia; render(); }
     else if (d.detalhe) abrirDetalhe(d.detalhe, d.sec);
     else if (d.onde) abrirOnde(d.onde);
     else if (d.verTeatro) { Object.assign(S, PADRAO, { teatro: d.verTeatro, view: 'espetaculos' }); renderSelects(); render(); scrollTo({ top: 0 }); }
@@ -514,6 +541,7 @@ async function iniciar() {
     $('#hero-datas').textContent = `${dt(CFG.inicio).getDate()} ${MES[dt(CFG.inicio).getMonth()]} a ${dt(CFG.fim).getDate()} ${MES[dt(CFG.fim).getMonth()]} ${CFG.ano}`;
     $('#rodape').innerHTML = `${esc(CFG.edicao)} ${esc(CFG.titulo)}<br>Os valores promocionais são praticados somente nos postos de venda, no app e na internet.`;
     renderSelects(); ligar(); render();
+    track('visita', { extra: showId ? 'link-espetaculo' : '' });
     if (showId) abrirDetalhe(showId);
   } catch (err) {
     console.error(err);
