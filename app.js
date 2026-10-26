@@ -444,8 +444,11 @@ function abrirDetalhe(id, secao) {
       <h3>Ingressos</h3>
       <div class="precos"><div><b>${precoTxt(s)}</b><span>${precoTxt(s) === 'Gratuito' ? 'Entrada' : 'Postos Sinparc, app e internet'}</span></div>
       ${s.preco_bilheteria ? `<div><b>${reais(s.preco_bilheteria)}</b><span>Inteira na bilheteria</span></div>` : ''}</div>
+      <div class="acoes">${botaoComprar(s)}</div>
       ${s.t ? `<h3>Onde${s.sala ? ` · ${esc(s.sala)}` : ''}</h3>${enderecoBox(s.t)}` : ''}
-      <div class="acoes" style="margin-top:18px"><button class="btn" data-copiarlink="${esc(s.id)}">Copiar link deste espetáculo</button></div>
+      <div class="acoes" style="margin-top:18px">${botaoComprar(s)}
+        <a class="btn whats" href="${esc(linkWhats(s))}" target="_blank" rel="noopener">Compartilhar no WhatsApp</a>
+        <button class="btn" data-copiarlink="${esc(s.id)}">Copiar link</button></div>
     </div>`, s.id);
   if (secao) setTimeout(() => $('#' + secao)?.scrollIntoView({ block: 'start' }), 60);
 }
