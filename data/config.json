@@ -1,0 +1,30 @@
+{
+  "titulo": "Campanha de Popularização Teatro & Dança",
+  "edicao": "52ª",
+  "ano": 2027,
+  "inicio": "2027-01-05",
+  "fim": "2027-02-05",
+  "modoExemplo": true,
+  "lojaUrl": "https://www.vaaoteatromg.com.br",
+  "precoPadrao": 25,
+  "csvEspetaculos": "data/espetaculos.csv",
+  "csvTeatros": "data/teatros.csv",
+  "contato": {
+    "telefone": "(31) 3166-6223",
+    "whatsapp": "(31) 97201-2169",
+    "horario": "Seg a Sáb: 10h às 19h · Dom: 10h às 18h",
+    "instagram": "@sinparcmg"
+  },
+  "postos": [
+    { "nome": "Posto Shopping Cidade (Piso GG)", "endereco": "Rua Tupis, 337, Centro", "horario": "Seg a Sáb 10h às 19h · Dom 10h às 18h" },
+    { "nome": "Posto Shopping Pátio Savassi (Piso L3)", "endereco": "Av. do Contorno, 6.061, Funcionários", "horario": "Seg a Sáb 12h às 19h · Dom 14h às 18h" },
+    { "nome": "Monte Carmo Shopping (Espaço de Eventos)", "endereco": "Av. Juiz Marco Túlio Isaac, 1.119, Ingá Alto, Betim", "horario": "Seg a Sáb 12h às 19h · Dom 12h às 18h" }
+  ],
+  "regras": [
+    "O valor promocional vale somente nos Postos Sinparc, no app e na internet. Nas bilheterias dos teatros vale o valor integral e a meia-entrada, conforme a lei.",
+    "As vendas on-line são feitas até 2 horas antes do espetáculo e têm taxa de conveniência. Depois disso, as vendas reabrem 1 hora antes, nas bilheterias, se não estiver esgotado.",
+    "Os ingressos não têm lugar marcado: chegue mais cedo ao teatro.",
+    "Não fazemos reserva, troca nem devolução de dinheiro. Confira o ingresso na hora da compra.",
+    "Não compre de cambistas: os ingressos podem ser falsos."
+  ]
+}
