@@ -202,3 +202,18 @@ dialog::backdrop { background: rgba(0,0,0,.7); }
 .patrocinio a { display: block; }
 .patrocinio img { display: block; width: 100%; height: auto; border-radius: 14px; box-shadow: 0 6px 20px rgba(0,0,0,.4); }
 .hero-datas { font-size: clamp(1.15rem, 5.4vw, 1.9rem); }
+
+/* barra fixa de patrocinadores */
+body.com-barra { padding-bottom: 76px; }
+.barra-patro { position: fixed; left: 0; right: 0; bottom: 0; z-index: 40; display: flex; align-items: center; justify-content: space-between; gap: clamp(6px, 2vw, 22px);
+  height: 68px; padding: 0 clamp(8px, 2.4vw, 28px); color: #fff; border-top: 1px solid var(--linha);
+  background: radial-gradient(ellipse at 30% 120%, rgba(160,40,110,.55), transparent 55%), linear-gradient(90deg, rgba(20,6,30,.96), rgba(46,12,52,.94) 50%, rgba(20,6,30,.96)), url(assets/fundo-roxo.webp) center / cover; box-shadow: 0 -6px 20px rgba(0,0,0,.35); overflow: hidden; }
+.pg-grupo { display: flex; flex: none; align-items: center; gap: clamp(6px, 1.6vw, 22px); }
+.pg-grupo.pequeno { display: grid; grid-template-rows: repeat(2, auto); grid-auto-flow: column; gap: 2px clamp(6px, 1.6vw, 20px); }
+.barra-patro a, .barra-patro i { display: inline-flex; align-items: center; justify-content: center; color: inherit; text-decoration: none; font-style: normal; }
+.barra-patro span { font-weight: 500; letter-spacing: .01em; white-space: nowrap; }
+.pg-grupo.grande span { font-size: calc(var(--f, 1) * clamp(.78rem, 2.4vw, 1.5rem)); }
+.pg-grupo.pequeno span { font-size: calc(var(--f, 1) * clamp(.5rem, 1.5vw, .95rem)); line-height: 1.15; }
+.barra-patro img { max-height: calc(var(--f, 1) * 34px); max-width: calc(var(--f, 1) * 110px); width: auto; height: auto; object-fit: contain; }
+.pg-grupo.pequeno img { max-height: calc(var(--f, 1) * 16px); max-width: calc(var(--f, 1) * 64px); }
+@media (min-width: 900px) { .barra-patro { height: 76px; } body.com-barra { padding-bottom: 84px; } }

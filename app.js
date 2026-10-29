@@ -575,6 +575,25 @@ async function iniciarPatrocinio() {
   } catch { el.hidden = true; }
 }
 
+
+/* ---------- barra fixa de patrocinadores (rodapé) ---------- */
+async function iniciarBarraPatro() {
+  const el = $('#barra-patro');
+  try {
+    const { grupos } = await (await fetch('data/rodape-patrocinadores.json', { cache: 'no-cache' })).json();
+    const logo = it => {
+      const miolo = it.imagem ? `<img src="${esc(it.imagem)}" alt="${esc(it.nome || 'Patrocinador')}" loading="lazy">` : `<span>${esc(it.nome || 'Logo')}</span>`;
+      return it.link ? `<a href="${esc(it.link)}" target="_blank" rel="noopener sponsored" data-track="patrocinio_barra" data-extra="${esc(it.nome || '')}">${miolo}</a>` : `<i>${miolo}</i>`;
+    };
+    el.innerHTML = (grupos || []).map(g => `<div class="pg-grupo ${g.tamanho === 'pequeno' ? 'pequeno' : 'grande'}">${(g.itens || []).map(logo).join('')}</div>`).join('');
+    el.hidden = !(grupos || []).length;
+    document.body.classList.toggle('com-barra', !el.hidden);
+    const ajustar = () => { let f = 1; el.style.setProperty('--f', f); while (el.scrollWidth > el.clientWidth + 1 && f > .3) { f *= .94; el.style.setProperty('--f', f.toFixed(3)); } };
+    ajustar(); addEventListener('resize', ajustar);
+    document.fonts?.ready.then(ajustar);
+  } catch { el.hidden = true; }
+}
+
 /* ---------- início ---------- */
 async function iniciar() {
   try {
@@ -589,6 +608,7 @@ async function iniciar() {
     $('#rodape').innerHTML = `${esc(CFG.edicao)} ${esc(CFG.titulo)}<br>Os valores promocionais são praticados somente nos postos de venda, no app e na internet.`;
     renderSelects(); ligar(); render();
     iniciarPatrocinio();
+    iniciarBarraPatro();
     track('visita', { extra: showId ? 'link-espetaculo' : '' });
     if (showId) abrirDetalhe(showId);
   } catch (err) {

@@ -1,0 +1,125 @@
+{
+  "_ajuda": "Cada item é um logo. Para trocar: coloque o arquivo em assets/patrocinadores/ e preencha 'imagem' (ex.: assets/patrocinadores/cemig-barra.png) e 'link'. 'grande' = logos em uma linha; 'pequeno' = logos em duas linhas.",
+  "grupos": [
+    {
+      "tamanho": "grande",
+      "itens": [
+        {
+          "nome": "Logo",
+          "imagem": "",
+          "link": ""
+        },
+        {
+          "nome": "Logo",
+          "imagem": "",
+          "link": ""
+        },
+        {
+          "nome": "Logo",
+          "imagem": "",
+          "link": ""
+        },
+        {
+          "nome": "Logo",
+          "imagem": "",
+          "link": ""
+        }
+      ]
+    },
+    {
+      "tamanho": "pequeno",
+      "itens": [
+        {
+          "nome": "Logo",
+          "imagem": "",
+          "link": ""
+        },
+        {
+          "nome": "Logo",
+          "imagem": "",
+          "link": ""
+        },
+        {
+          "nome": "Logo",
+          "imagem": "",
+          "link": ""
+        },
+        {
+          "nome": "Logo",
+          "imagem": "",
+          "link": ""
+        },
+        {
+          "nome": "Logo",
+          "imagem": "",
+          "link": ""
+        },
+        {
+          "nome": "Logo",
+          "imagem": "",
+          "link": ""
+        },
+        {
+          "nome": "Logo",
+          "imagem": "",
+          "link": ""
+        },
+        {
+          "nome": "Logo",
+          "imagem": "",
+          "link": ""
+        },
+        {
+          "nome": "Logo",
+          "imagem": "",
+          "link": ""
+        },
+        {
+          "nome": "Logo",
+          "imagem": "",
+          "link": ""
+        },
+        {
+          "nome": "Logo",
+          "imagem": "",
+          "link": ""
+        },
+        {
+          "nome": "Logo",
+          "imagem": "",
+          "link": ""
+        },
+        {
+          "nome": "Logo",
+          "imagem": "",
+          "link": ""
+        },
+        {
+          "nome": "Logo",
+          "imagem": "",
+          "link": ""
+        }
+      ]
+    },
+    {
+      "tamanho": "grande",
+      "itens": [
+        {
+          "nome": "Logo",
+          "imagem": "",
+          "link": ""
+        },
+        {
+          "nome": "Logo",
+          "imagem": "",
+          "link": ""
+        },
+        {
+          "nome": "Logo",
+          "imagem": "",
+          "link": ""
+        }
+      ]
+    }
+  ]
+}
