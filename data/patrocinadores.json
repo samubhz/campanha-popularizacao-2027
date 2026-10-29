@@ -1,29 +1,29 @@
 [
   {
-    "id": "unimed-bh",
-    "nome": "Unimed-BH",
-    "imagem": "assets/patrocinadores/unimed-bh.webp",
+    "id": "master-1",
+    "nome": "Patrocinador master 1",
+    "imagem": "assets/patrocinadores/master-1.webp",
     "largura": 960,
     "altura": 240,
-    "link": "https://www.unimedbh.com.br/",
-    "alt": "Unimed-BH, patrocinador master da 52ª Campanha de Popularização Teatro & Dança"
+    "link": "",
+    "alt": "Espaço reservado para o patrocinador master da 52ª Campanha de Popularização Teatro & Dança"
   },
   {
-    "id": "cemig",
-    "nome": "Cemig",
-    "imagem": "assets/patrocinadores/cemig.webp",
+    "id": "master-2",
+    "nome": "Patrocinador master 2",
+    "imagem": "assets/patrocinadores/master-2.webp",
     "largura": 960,
     "altura": 240,
-    "link": "https://www.cemig.com.br/",
-    "alt": "Cemig, patrocinadora master da 52ª Campanha de Popularização Teatro & Dança"
+    "link": "",
+    "alt": "Espaço reservado para o patrocinador master da 52ª Campanha de Popularização Teatro & Dança"
   },
   {
-    "id": "vale",
-    "nome": "Vale",
-    "imagem": "assets/patrocinadores/vale.webp",
+    "id": "master-3",
+    "nome": "Patrocinador master 3",
+    "imagem": "assets/patrocinadores/master-3.webp",
     "largura": 960,
     "altura": 240,
-    "link": "https://www.vale.com/pt",
-    "alt": "Vale, patrocinadora master da 52ª Campanha de Popularização Teatro & Dança"
+    "link": "",
+    "alt": "Espaço reservado para o patrocinador master da 52ª Campanha de Popularização Teatro & Dança"
   }
 ]
