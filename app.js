@@ -550,6 +550,31 @@ function ligar() {
   addEventListener('hashchange', () => { const id = lerHash(); renderSelects(); render(); if (id) abrirDetalhe(id); });
 }
 
+
+/* ---------- patrocinadores master (banner aleatório; vários = revezam) ---------- */
+async function iniciarPatrocinio() {
+  const el = $('#patrocinio');
+  try {
+    const lista = (await (await fetch(CFG.patrocinadores || 'data/patrocinadores.json', { cache: 'no-cache' })).json()).filter(p => p.imagem);
+    if (!lista.length) return;
+    let i = Math.floor(Math.random() * lista.length);
+    const vistos = new Set();
+    const mostrar = () => {
+      const p = lista[i % lista.length];
+      const img = `<img src="${esc(p.imagem)}" width="${p.largura || 960}" height="${p.altura || 240}" alt="${esc(p.alt || p.nome)}">`;
+      el.innerHTML = `<small>Patrocínio master</small>${p.link
+        ? `<a href="${esc(p.link)}" target="_blank" rel="noopener sponsored" data-track="patrocinio" data-extra="${esc(p.id || p.nome)}">${img}</a>` : img}`;
+      el.hidden = false;
+      if (!vistos.has(p.id)) { vistos.add(p.id); track('patrocinio_view', { extra: p.id || p.nome }); }
+    };
+    mostrar();
+    if (lista.length > 1) setInterval(() => {
+      el.classList.add('troca');
+      setTimeout(() => { i++; mostrar(); el.classList.remove('troca'); }, 350);
+    }, 9000);
+  } catch { el.hidden = true; }
+}
+
 /* ---------- início ---------- */
 async function iniciar() {
   try {
@@ -563,6 +588,7 @@ async function iniciar() {
       : `${di.getDate()} <b>${MESES_L[di.getMonth()]}</b> a ${df.getDate()} <b>${MESES_L[df.getMonth()]}</b> · BH`;
     $('#rodape').innerHTML = `${esc(CFG.edicao)} ${esc(CFG.titulo)}<br>Os valores promocionais são praticados somente nos postos de venda, no app e na internet.`;
     renderSelects(); ligar(); render();
+    iniciarPatrocinio();
     track('visita', { extra: showId ? 'link-espetaculo' : '' });
     if (showId) abrirDetalhe(showId);
   } catch (err) {

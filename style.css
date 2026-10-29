@@ -195,3 +195,9 @@ dialog::backdrop { background: rgba(0,0,0,.7); }
 .grupo h2 { display: flex; align-items: baseline; gap: 12px; margin: 0 0 12px; padding-bottom: 8px; border-bottom: 3px solid var(--cat); font-size: 1.3rem; }
 .grupo h2 small { color: var(--suave); font-weight: 400; font-size: .9rem; }
 .resumo { max-width: 1100px; margin: 10px auto 0; padding: 0 16px; }
+
+.patrocinio { max-width: 760px; margin: 0 auto; padding: 4px 16px 18px; text-align: center; transition: opacity .35s; }
+.patrocinio.troca { opacity: 0; }
+.patrocinio small { display: block; margin-bottom: 6px; font-size: .7rem; letter-spacing: .16em; text-transform: uppercase; color: var(--suave); }
+.patrocinio a { display: block; }
+.patrocinio img { display: block; width: 100%; height: auto; border-radius: 14px; box-shadow: 0 6px 20px rgba(0,0,0,.4); }
