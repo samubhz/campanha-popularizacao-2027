@@ -556,7 +556,11 @@ async function iniciar() {
     const showId = lerHash();
     await carregar();
     $('#aviso-exemplo').hidden = !CFG.modoExemplo;
-    $('#hero-datas').textContent = `${dt(CFG.inicio).getDate()} ${MES[dt(CFG.inicio).getMonth()]} a ${dt(CFG.fim).getDate()} ${MES[dt(CFG.fim).getMonth()]} ${CFG.ano}`;
+    const MESES_L = ['janeiro', 'fevereiro', 'março', 'abril', 'maio', 'junho', 'julho', 'agosto', 'setembro', 'outubro', 'novembro', 'dezembro'];
+    const di = dt(CFG.inicio), df = dt(CFG.fim);
+    $('#hero-datas').innerHTML = di.getMonth() === df.getMonth()
+      ? `${di.getDate()} a ${df.getDate()} <b>${MESES_L[df.getMonth()]}</b> · BH`
+      : `${di.getDate()} <b>${MESES_L[di.getMonth()]}</b> a ${df.getDate()} <b>${MESES_L[df.getMonth()]}</b> · BH`;
     $('#rodape').innerHTML = `${esc(CFG.edicao)} ${esc(CFG.titulo)}<br>Os valores promocionais são praticados somente nos postos de venda, no app e na internet.`;
     renderSelects(); ligar(); render();
     track('visita', { extra: showId ? 'link-espetaculo' : '' });

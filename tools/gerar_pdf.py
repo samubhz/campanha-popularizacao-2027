@@ -12,11 +12,11 @@ SAIDA = sys.argv[1] if len(sys.argv) > 1 else os.path.join(RAIZ, 'programa-campa
 CHROME = os.environ.get('CHROME', '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome')
 
 CATS = {
-    'teatro-adulto': ('Teatro adulto', '#c4692f'),
-    'teatro-infantil': ('Teatro infantil', '#2f9a72'),
-    'danca': ('Dança', '#8a5cc4'),
-    'stand-up': ('Stand-up', '#d9a441'),
-    'especial': ('Projetos especiais', '#c0463f'),
+    'teatro-adulto': ('Teatro adulto', '#e0803c'),
+    'teatro-infantil': ('Teatro infantil', '#2fb283'),
+    'danca': ('Dança', '#ff7ab8'),
+    'stand-up': ('Stand-up', '#f3cf5e'),
+    'especial': ('Projetos especiais', '#ef5a52'),
 }
 DIA = ['seg', 'ter', 'qua', 'qui', 'sex', 'sáb', 'dom']  # weekday(): seg=0
 MESES_LONGOS = ['janeiro', 'fevereiro', 'março', 'abril', 'maio', 'junho', 'julho', 'agosto', 'setembro', 'outubro', 'novembro', 'dezembro']
@@ -146,67 +146,71 @@ LOGO = 'file://' + urllib.parse.quote(os.path.join(RAIZ, 'assets/logo-campanha.w
 CSS = """
 @page { size: 1080px 1920px; margin: 0 }
 * { box-sizing: border-box; margin: 0; padding: 0 }
-html, body { background: #1b0f0a }
-body { font-family: -apple-system, 'Helvetica Neue', Arial, sans-serif; color: #f4e9d8; -webkit-print-color-adjust: exact; print-color-adjust: exact }
+html, body { background: #240a30 }
+body { font-family: -apple-system, 'Helvetica Neue', Arial, sans-serif; color: #f8f0ff; -webkit-print-color-adjust: exact; print-color-adjust: exact }
 a { color: inherit; text-decoration: none }
-.pg { width: 1080px; height: 1920px; position: relative; overflow: hidden; page-break-after: always; break-after: page; display: flex; flex-direction: column; background: radial-gradient(ellipse at 50% 0, #3d2217 0, #1b0f0a 62%) }
+.pg { width: 1080px; height: 1920px; position: relative; overflow: hidden; page-break-after: always; break-after: page; display: flex; flex-direction: column; background: radial-gradient(ellipse at 50% 0, #4c1a63 0, #240a30 62%) }
 .cond { font-family: 'Avenir Next Condensed', 'Arial Narrow', 'Helvetica Neue', sans-serif; font-weight: 800; letter-spacing: .01em }
-.topo { height: 110px; flex: none; display: flex; align-items: center; justify-content: space-between; padding: 0 44px; background: var(--c); color: #fff }
+.topo { color: var(--t, #fff); height: 110px; flex: none; display: flex; align-items: center; justify-content: space-between; padding: 0 44px; background: var(--c) }
 .topo .cat { font-size: 40px; text-transform: uppercase; font-weight: 800; letter-spacing: .08em }
 .menu { display: inline-block; padding: 14px 30px; border-radius: 40px; background: rgba(0,0,0,.35); color: #fff; font-size: 30px; font-weight: 700 }
-.foto { height: 430px; flex: none; position: relative; background: linear-gradient(135deg, var(--c), #1b0f0a 120%); display: flex; align-items: center; justify-content: center }
+.foto { height: 430px; flex: none; position: relative; background: linear-gradient(135deg, var(--c), #240a30 120%); display: flex; align-items: center; justify-content: center }
 .foto img { width: 100%; height: 100%; object-fit: cover }
 .foto .ini { font-size: 220px; opacity: .3; font-weight: 800 }
 .selos { position: absolute; left: 28px; bottom: 22px; display: flex; gap: 12px }
 .selo { background: rgba(0,0,0,.78); color: #fff; font-size: 26px; font-weight: 700; padding: 8px 20px; border-radius: 30px }
-.selo.e { background: #d9a441; color: #2a1810 }
+.selo.e { background: #f3cf5e; color: #36124b }
 .corpo { padding: 26px 48px 0; flex: 1; display: flex; flex-direction: column; min-height: 0 }
 h1 { font-size: 66px; line-height: 1.04; margin-bottom: 8px }
-.meta { font-size: 29px; color: #bba68d; margin-bottom: 20px }
+.meta { font-size: 29px; color: #cbb6dc; margin-bottom: 20px }
 .btns { display: flex; gap: 16px; margin-bottom: 18px }
-.btn { display: inline-flex; align-items: center; justify-content: center; padding: 22px 30px; border-radius: 20px; font-size: 33px; font-weight: 800; background: #38211a; border: 2px solid #4a2e22; color: #f4e9d8; text-align: center }
-.btn.c { background: #d9a441; border-color: #d9a441; color: #2a1810; flex: 1; font-size: 40px }
+.btn { display: inline-flex; align-items: center; justify-content: center; padding: 22px 30px; border-radius: 20px; font-size: 33px; font-weight: 800; background: #451a5e; border: 2px solid #5b2d78; color: #f8f0ff; text-align: center }
+.btn.c { background: #f3cf5e; border-color: #f3cf5e; color: #36124b; flex: 1; font-size: 40px }
 .btn.w { background: #25d366; border-color: #25d366; color: #05301a }
 .btn.z { background: #33ccff; border-color: #33ccff; color: #05303f }
 .btn.p { padding: 16px 26px; font-size: 28px }
+.fichabtn { border-color: #f3cf5e; color: #f3cf5e }
 .sec { margin-bottom: 14px }
-.lab { font-size: 24px; letter-spacing: .12em; text-transform: uppercase; color: #d9a441; font-weight: 800; margin-bottom: 7px }
+.lab { font-size: 24px; letter-spacing: .12em; text-transform: uppercase; color: #f3cf5e; font-weight: 800; margin-bottom: 7px }
 .local { font-size: 32px; font-weight: 700; line-height: 1.2 }
-.end { font-size: 26px; color: #bba68d; margin: 2px 0 12px }
+.end { font-size: 26px; color: #cbb6dc; margin: 2px 0 12px }
 .row { display: flex; gap: 14px; flex-wrap: wrap }
-.chip { background: #38211a; border: 2px solid #4a2e22; border-radius: 14px; padding: 8px 18px; font-size: 27px }
+.chip { background: #451a5e; border: 2px solid #5b2d78; border-radius: 14px; padding: 8px 18px; font-size: 27px }
 .preco { display: flex; align-items: baseline; gap: 22px }
-.preco b { font-size: 60px; color: #d9a441 }
-.preco span { font-size: 27px; color: #bba68d }
-.txt { font-size: var(--fs, 30px); line-height: 1.34; color: #eadfcd }
-.ficha { font-size: var(--ff, 25px); line-height: 1.32; color: #d8ccb8 }
-.ficha b { color: #d9a441; font-weight: 700 }
-.rod { height: 108px; flex: none; margin-top: auto; display: flex; align-items: center; justify-content: space-between; padding: 0 44px; border-top: 2px solid #4a2e22; background: #140a06; font-size: 28px; color: #bba68d }
-.rod a { padding: 14px 24px; border-radius: 30px; background: #2a1810; color: #f4e9d8; font-weight: 700 }
+.preco b { font-size: 60px; color: #f3cf5e }
+.preco span { font-size: 27px; color: #cbb6dc }
+.txt { font-size: var(--fs, 30px); line-height: 1.34; color: #f1e6fa }
+.ficha { font-size: var(--ff, 25px); line-height: 1.32; color: #e3d4f0 }
+.ficha b { color: #f3cf5e; font-weight: 700 }
+.rod { height: 108px; flex: none; margin-top: auto; display: flex; align-items: center; justify-content: space-between; padding: 0 44px; border-top: 2px solid #5b2d78; background: #1a0623; font-size: 28px; color: #cbb6dc }
+.rod a { padding: 14px 24px; border-radius: 30px; background: #36124b; color: #f8f0ff; font-weight: 700 }
 .cap { padding: 60px 56px 0; flex: 1 }
 .cap h2 { font-size: 78px; line-height: 1; margin-bottom: 14px }
-.cap p { font-size: 32px; color: #bba68d; margin-bottom: 30px }
-.item { display: block; padding: 20px 26px; margin-bottom: 14px; border-radius: 18px; background: #2a1810; border-left: 12px solid var(--c); font-size: 34px; line-height: 1.15 }
-.item small { display: block; font-size: 25px; color: #bba68d; margin-top: 6px; font-weight: 400 }
-.big { display: block; padding: 34px 40px; margin-bottom: 20px; border-radius: 26px; background: var(--c); color: #fff; font-size: 52px; line-height: 1.05 }
+.cap p { font-size: 32px; color: #cbb6dc; margin-bottom: 30px }
+.item { display: block; padding: 20px 26px; margin-bottom: 14px; border-radius: 18px; background: #36124b; border-left: 12px solid var(--c); font-size: 34px; line-height: 1.15 }
+.item small { display: block; font-size: 25px; color: #cbb6dc; margin-top: 6px; font-weight: 400 }
+.big { display: block; padding: 34px 40px; margin-bottom: 20px; border-radius: 26px; background: var(--c); color: var(--t, #fff); font-size: 52px; line-height: 1.05 }
 .big small { display: block; font-size: 28px; opacity: .85; margin-top: 8px; font-weight: 500 }
 .capa { background: #000 url(CAPA) center/cover no-repeat }
-.capa .go { position: absolute; left: 70px; right: 70px; bottom: 90px; text-align: center; padding: 36px; border-radius: 30px; background: #d9a441; color: #2a1810; font-size: 50px; font-weight: 800; box-shadow: 0 10px 40px rgba(0,0,0,.6) }
+.capa .go { position: absolute; left: 70px; right: 70px; bottom: 90px; text-align: center; padding: 36px; border-radius: 30px; background: #f3cf5e; color: #36124b; font-size: 50px; font-weight: 800; box-shadow: 0 10px 40px rgba(0,0,0,.6) }
 .capa .data { position: absolute; left: 0; right: 0; bottom: 250px; text-align: center; font-size: 34px; color: #fff; text-shadow: 0 2px 10px #000 }
 .hero { padding: 70px 50px 10px; text-align: center }
 .hero img { width: 100% }
-.t-card { padding: 22px 26px; margin-bottom: 14px; border-radius: 18px; background: #2a1810 }
+.t-card { padding: 22px 26px; margin-bottom: 14px; border-radius: 18px; background: #36124b }
 .t-card h4 { font-size: 34px; margin-bottom: 4px }
-.t-card p { font-size: 25px; color: #bba68d; line-height: 1.25 }
+.t-card p { font-size: 25px; color: #cbb6dc; line-height: 1.25 }
 .t-card .row { margin-top: 10px }
-ul.lista { list-style: none; font-size: 30px; line-height: 1.3; color: #eadfcd }
+ul.lista { list-style: none; font-size: 30px; line-height: 1.3; color: #f1e6fa }
 ul.lista li { margin-bottom: 18px; padding-left: 36px; position: relative }
-ul.lista li::before { content: '✦'; position: absolute; left: 0; color: #d9a441 }
+ul.lista li::before { content: '✦'; position: absolute; left: 0; color: #f3cf5e }
 """
 
 
-def pagina(conteudo, cor='#d9a441', cls=''):
-    return f'<section class="pg {cls}" style="--c:{cor}">{conteudo}</section>'
+TEXTO_SOBRE = {'#f3cf5e': '#2a0b35'}  # texto escuro sobre o dourado
+
+
+def pagina(conteudo, cor='#f3cf5e', cls=''):
+    return f'<section class="pg {cls}" style="--c:{cor};--t:{TEXTO_SOBRE.get(cor, "#fff")}">{conteudo}</section>'
 
 
 def rodape(prev=None, nxt=None, cat=None):
@@ -280,7 +284,7 @@ def pagina_show(i, s, prev, nxt):
 
     local = ''
     if t:
-        sala = f' <span style="font-weight:400;color:#bba68d">· {e(s["sala"])}</span>' if s.get('sala') else ''
+        sala = f' <span style="font-weight:400;color:#cbb6dc">· {e(s["sala"])}</span>' if s.get('sala') else ''
         local = (f'<div class="sec"><div class="lab">Onde</div><div class="local">📍 {e(t["nome"])}{sala}</div>'
                  f'<div class="end">{e(endereco_linha(t))}</div>'
                  f'<div class="row"><a class="btn z p" href="{e(waze(t))}">Abrir no Waze</a>'
@@ -301,48 +305,38 @@ def pagina_show(i, s, prev, nxt):
         links.append(f'<a class="btn p" href="{e(u)}">🔗 site</a>')
     links_html = f'<div class="sec"><div class="lab">Vídeos e links</div><div class="row">{"".join(links)}</div></div>' if links else ''
 
-    # sinopse + ficha: cabem juntas? senão a ficha vai para uma 2ª página
+    # Sinopse na página do espetáculo (letra maior); a ficha técnica fica numa página própria,
+    # aberta pelo botão "Ficha técnica" e fechada pelo botão "Fechar".
     sin = s.get('sinopse') or ''
     fic = ficha_html(s.get('ficha'))
     fic_txt = re.sub('<[^>]+>', '', fic)
-    reserva = 330 + (0 if t else -250) + (0 if links else -110) + (120 if len(chips) > 700 else 0)
-    espaco = 1920 - 110 - 430 - 108 - 700 - reserva + 330  # altura restante estimada p/ sinopse+ficha
-    espaco = max(espaco, 380)
-    cabe = False
-    forcar = s['id'] in FORCAR
-    for fs, ff in ((30, 25), (28, 24), (27, 23), (26, 22)):
-        h = (math.ceil(len(sin) / (952 / (fs * .5))) * fs * 1.34 + 30 + 40 + math.ceil(len(fic_txt) / (952 / (ff * .5))) * ff * 1.32)
-        if h <= espaco:
-            cabe = True
-            break
-    cabe = cabe and not forcar
     sid = f'show-{s["id"]}'
-    corpo_sin = f'<div class="sec"><div class="lab">Sinopse</div><div class="txt" style="--fs:{fs if cabe else tam(sin, 30, 21, 952, 260 if s['id'] in APERTAR else 380, 1.34)}px">{e(sin)}</div></div>' if sin else ''
-    if cabe:
-        corpo_fic = f'<div class="sec"><div class="lab">Ficha técnica</div><div class="ficha" style="--ff:{ff}px">{fic}</div></div>' if fic else ''
-    else:
-        corpo_fic = f'<div class="sec"><a class="btn p" href="#{sid}-ficha">📋 Ficha técnica completa ›</a></div>' if fic else ''
+    max_sin = 300 if s['id'] in APERTAR else 400
+    fs_sin = tam(sin, 36, 24, 952, max_sin, 1.34)
+    corpo_sin = f'<div class="sec"><div class="lab">Sinopse</div><div class="txt" style="--fs:{fs_sin}px">{e(sin)}</div></div>' if sin else ''
+    botao_ficha = f'<a class="btn p fichabtn" href="#{sid}-ficha">📋 Ficha técnica ›</a>' if fic else ''
 
     pg1 = pagina(
-        f'{topo(nome)}<div class="foto">{img}<div class="selos">{selos}</div></div>'
+        f'{topo(nome)}<div class="foto"{" style=\"height:340px\"" if s["id"] in APERTAR else ""}>{img}<div class="selos">{selos}</div></div>'
         f'<div class="corpo"><h1 class="cond" style="font-size:{66 if len(s["titulo"]) < 36 else 52}px">{e(s["titulo"])}</h1>'
         f'<div class="meta">{e(meta)}{" · " if meta and prod else ""}{e(prod)}</div>'
         f'<div class="btns">{comprar}{whats}</div>{local}'
         f'<div class="sec"><div class="lab">Sessões</div><div class="row">{chips}</div></div>'
         f'<div class="sec preco"><b class="cond">{e(preco)}</b><span>{"promocional · postos, app e internet" if not gratis else ""}'
         f'{" · bilheteria " + e(bil) if bil else ""}</span></div>'
-        f'{corpo_sin}{corpo_fic}{links_html}</div>{rodape(prev, nxt, s["cat"])}',
+        f'{corpo_sin}<div class="sec row">{botao_ficha}</div>{links_html}</div>{rodape(prev, nxt, s["cat"])}',
         cor).replace('<section class="pg ', f'<section id="{sid}" class="pg ', 1)
-    if cabe or not fic:
-        return pg1
-    ff2 = tam(fic_txt, 34, 24, 952, 1330, 1.32)
-    pg2 = pagina(
+    if not fic:
+        return pg1, ''
+    ff = min(tam(fic_txt, 30, 18, 952, 1250, 1.32), fs_sin - 4)
+    pgf = pagina(
         f'{topo(nome)}<div class="corpo" style="padding-top:44px"><div class="lab">Ficha técnica</div>'
         f'<h1 class="cond" style="font-size:58px">{e(s["titulo"])}</h1><div class="meta">{e(prod)}</div>'
-        f'<div class="ficha" style="--ff:{ff2}px">{fic}</div>'
-        f'<div class="btns" style="margin-top:34px">{comprar}<a class="btn" href="#{sid}">‹ Voltar</a></div></div>'
-        f'{rodape(prev, nxt, s["cat"])}', cor).replace('<section class="pg ', f'<section id="{sid}-ficha" class="pg ', 1)
-    return pg1 + pg2
+        f'<div class="ficha" style="--ff:{ff}px">{fic}</div>'
+        f'<div class="btns" style="margin-top:34px"><a class="btn c" href="#{sid}">✕ FECHAR FICHA</a>{comprar if not esg else ""}</div></div>'
+        f'<div class="rod"><a href="#{sid}">‹ voltar ao espetáculo</a><span></span><a href="#menu">☰ menu</a></div>', cor
+    ).replace('<section class="pg ', f'<section id="{sid}-ficha" class="pg ', 1)
+    return pg1, pgf
 
 
 def paginas_lista(titulo, subtitulo, itens, cor, id_base, por=11):
@@ -360,19 +354,20 @@ def paginas_lista(titulo, subtitulo, itens, cor, id_base, por=11):
 
 # ---------------- montagem ----------------
 pags = []
+FICHAS = []
 pags.append('<section class="pg capa"><a class="go cond" href="#menu">ABRIR A PROGRAMAÇÃO ›</a></section>')
 
 # menu
 por_cat = {c: [s for s in SHOWS if s['cat'] == c] for c in CATS}
-botoes = ''.join(f'<a class="big cond" style="--c:{cor}" href="#cat-{c}">{e(nome)}<small>{len(por_cat[c])} espetáculos</small></a>'
+botoes = ''.join(f'<a class="big cond" style="--c:{cor};--t:{TEXTO_SOBRE.get(cor, "#fff")}" href="#cat-{c}">{e(nome)}<small>{len(por_cat[c])} espetáculos</small></a>'
                  for c, (nome, cor) in CATS.items() if por_cat[c])
-botoes += '<a class="big cond" style="--c:#4a2e22" href="#ingressos">Ingressos e onde comprar<small>valores, postos de venda e regras</small></a>'
-botoes += '<a class="big cond" style="--c:#4a2e22" href="#teatros">Teatros e endereços<small>com rota no Waze</small></a>'
+botoes += '<a class="big cond" style="--c:#5b2d78" href="#ingressos">Ingressos e onde comprar<small>valores, postos de venda e regras</small></a>'
+botoes += '<a class="big cond" style="--c:#5b2d78" href="#teatros">Teatros e endereços<small>com rota no Waze</small></a>'
 pags.append(pagina(
     f'<div class="hero"><img src="{LOGO}"></div><div class="cap" style="padding-top:30px"><div class="lab" style="font-size:28px">Menu</div>'
     f'<p style="margin-bottom:24px">Toque na categoria para ver os espetáculos. De {ini.day} de {MESES_LONGOS[ini.month - 1]} a {fim.day} de {MESES_LONGOS[fim.month - 1]} de {fim.year}.</p>{botoes}'
     f'<p style="font-size:24px;margin-top:10px">Programação atualizada em {HOJE}. Para a versão mais recente: '
-    f'<a href="{e(SITE)}" style="color:#d9a441">{e(SITE.replace("https://", ""))}</a></p></div>').replace('<section class="pg ', '<section id="menu" class="pg ', 1))
+    f'<a href="{e(SITE)}" style="color:#f3cf5e">{e(SITE.replace("https://", ""))}</a></p></div>').replace('<section class="pg ', '<section id="menu" class="pg ', 1))
 
 # categorias + espetáculos
 ordem = [s for c in CATS for s in por_cat[c]]
@@ -390,7 +385,9 @@ for c, (nome, cor) in CATS.items():
     pags += paginas_lista(nome, f'{len(lista)} espetáculos', itens, cor, f'cat-{c}')
     for s in lista:
         i = ordem.index(s)
-        pags.append(pagina_show(i, s, ids[i - 1] if i > 0 else None, ids[i + 1] if i + 1 < len(ids) else None))
+        pg1, pgf = pagina_show(i, s, ids[i - 1] if i > 0 else None, ids[i + 1] if i + 1 < len(ids) else None)
+        pags.append(pg1)
+        FICHAS.append(pgf)
 
 # ingressos
 regras = ''.join(f'<li>{e(r)}</li>' for r in CFG.get('regras', []))
@@ -410,11 +407,13 @@ for t in sorted(TEATROS.values(), key=lambda x: norm(x['nome'])):
     extra = ' · '.join(x for x in [f"{t['lugares']} lugares" if t.get('lugares') else '', t.get('acessibilidade', '')] if x)
     tcards.append(f'<div class="t-card"><h4 class="cond">{e(t["nome"])}</h4><p>📍 {e(endereco_linha(t))}<br>{e(extra)}</p>'
                   f'<div class="row"><a class="btn z p" href="{e(waze(t))}">Abrir no Waze</a><a class="btn p" href="{e(maps(t))}">Google Maps</a></div></div>')
-pags += paginas_lista('Teatros e endereços', f'{len(tcards)} espaços', tcards, '#4a2e22', 'teatros', por=6)
+pags += paginas_lista('Teatros e endereços', f'{len(tcards)} espaços', tcards, '#5b2d78', 'teatros', por=6)
+
+pags += [f for f in FICHAS if f]
 
 # contracapa
 pags.append(pagina(
-    f'<div class="hero" style="padding-top:260px"><img src="{LOGO}"></div><div class="cap" style="text-align:center"><p style="font-size:38px;color:#f4e9d8">Vem pro teatro!</p>'
+    f'<div class="hero" style="padding-top:260px"><img src="{LOGO}"></div><div class="cap" style="text-align:center"><p style="font-size:38px;color:#f8f0ff">Vem pro teatro!</p>'
     f'<a class="btn c" style="display:flex;margin:40px 0" href="{e(SITE)}">Ver a programação atualizada no site</a>'
     f'<p style="font-size:27px">Realização: Sinparc MG · {e(LOJA.replace("https://", ""))}<br>Programa gerado em {HOJE}. Datas, preços e horários podem mudar: confira no site.</p></div>'
     f'<div class="rod"><a href="#menu">☰ menu</a><span></span><span></span></div>'))
@@ -426,12 +425,12 @@ open(tmp, 'w', encoding='utf-8').write(doc.replace('</body>', CHECK + '</body>')
 dom = subprocess.run([CHROME, '--headless=new', '--disable-gpu', '--virtual-time-budget=30000', '--dump-dom', 'file://' + tmp], capture_output=True, text=True).stdout
 ids_est = set(re.findall(r'<section id="([^"]+)"[^>]*data-estouro', dom))
 est_show = {i[5:] for i in ids_est if i.startswith('show-') and not i.endswith('-ficha')}
-novos, apertar = est_show - FORCAR, (est_show & FORCAR) - APERTAR
-if (novos or apertar) and int(os.environ.get('ITER', '0')) < 4:
+novos, apertar = set(), est_show - APERTAR
+if apertar and int(os.environ.get('ITER', '0')) < 4:
     env = dict(os.environ, FORCAR_FICHA=','.join(FORCAR | novos), APERTAR=','.join(APERTAR | apertar), ITER=str(int(os.environ.get('ITER', '0')) + 1))
     os.execve(sys.executable, [sys.executable] + sys.argv, env)
 if ids_est:
-    print('ATENÇÃO: conteúdo cortado nas páginas:', ', '.join(sorted(ids_est)))
+    print('ATENÇÃO: conteúdo cortado nas páginas:', ', '.join(f'{i} (+{n}px)' for i, n in re.findall(r'<section id="([^"]+)"[^>]*data-estouro="(\d+)"', dom)))
 open(tmp, 'w', encoding='utf-8').write(doc)
 subprocess.run([CHROME, '--headless=new', '--disable-gpu', '--no-pdf-header-footer', '--run-all-compositor-stages-before-draw',
                 '--virtual-time-budget=30000', f'--print-to-pdf={SAIDA}', 'file://' + tmp], check=True,
