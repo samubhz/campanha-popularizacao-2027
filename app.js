@@ -584,8 +584,8 @@ async function iniciar() {
     const MESES_L = ['janeiro', 'fevereiro', 'março', 'abril', 'maio', 'junho', 'julho', 'agosto', 'setembro', 'outubro', 'novembro', 'dezembro'];
     const di = dt(CFG.inicio), df = dt(CFG.fim);
     $('#hero-datas').innerHTML = di.getMonth() === df.getMonth()
-      ? `${di.getDate()} a ${df.getDate()} <b>${MESES_L[df.getMonth()]}</b> · BH`
-      : `${di.getDate()} <b>${MESES_L[di.getMonth()]}</b> a ${df.getDate()} <b>${MESES_L[df.getMonth()]}</b> · BH`;
+      ? `${di.getDate()} a ${df.getDate()} <b>${MESES_L[df.getMonth()]}</b> · Belo Horizonte`
+      : `${di.getDate()} <b>${MESES_L[di.getMonth()]}</b> a ${df.getDate()} <b>${MESES_L[df.getMonth()]}</b> · Belo Horizonte`;
     $('#rodape').innerHTML = `${esc(CFG.edicao)} ${esc(CFG.titulo)}<br>Os valores promocionais são praticados somente nos postos de venda, no app e na internet.`;
     renderSelects(); ligar(); render();
     iniciarPatrocinio();
